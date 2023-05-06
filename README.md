@@ -95,7 +95,13 @@ Get-ChildItem -Path .\U -Filter *.msu | foreach {  Add-WindowsPackage -PackagePa
 
 ## Removing Bloatware
 
-### Removing Wi-Fi, Ethernet Packages
+Let's jump right into removing the bloatwares.
+
+### Unnecessary Packages
+
+Starting with the unnecessary packages. These packages are not commonly used or needed and may take up unnecessary space on your system. It's recommended to remove them to optimize your system's performance and free up space.
+
+#### Removing Wi-Fi, Ethernet Packages
 
 Instead of using Windows pre-installed Wi-Fi/Ethernet packages, install your drivers.
 
@@ -106,7 +112,9 @@ foreach ($p in $packages) {
 }
 ```
 
-### Other Packages
+#### Other Packages
+
+Consider removing Notepad, WordPad, Internet Explorer, and Media Player from your system. There are better alternatives available, so it's worth giving them a try instead.
 
 ```powershell
 # For Mail, Calend...
@@ -137,6 +145,8 @@ Get-WindowsPackage -Path .\M | Where-Object { $_.PackageName -clike "OpenSSH-Cli
 
 ### Remove Capabilities
 
+If you are using Text to speech, OCR, or Speech features, you may want to skip this part.
+
 ```powershell
 Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" -and $_.Name -clike "Language.Handwriting*" } | foreach { Remove-WindowsCapability -Path .\M -Name $_.Name }
 Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" -and $_.Name -clike "Language.OCR*" } | foreach { Remove-WindowsCapability -Path .\M -Name $_.Name }
@@ -146,6 +156,8 @@ Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" -and 
 
 
 ### Disable Windows Features
+
+To keep Printer features or any other you may want, just take them out from the list before you run the script below.
 
 ```powershell
 $features = "Printing-PrintToPDFServices-Features",
@@ -166,8 +178,9 @@ foreach ($f in $features) {
 }
 ```
 
-
 ### Uninstall Provisioned Apps
+
+If you wish to keep an app from the list below, simply delete it from the list before running the script.
 
 ```powershell
 $apps = "Clipchamp.Clipchamp*",
