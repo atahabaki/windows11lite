@@ -8,9 +8,9 @@ With that said, let's get started!
 
 ## Prerequisites
 
-- First things first, get the [Official Windows 11 ISO]([Download Windows 11 (microsoft.com)](https://www.microsoft.com/software-download/windows11)) (remember to check the file checksum),
-- [7-Zip]([7-Zip](https://7-zip.org/)),
-- [Windows 11 ADK]([Download and install the Windows ADK | Microsoft Learn](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install)) (just the Deployment tools),
+- First things first, get the [Official Windows 11 ISO](https://www.microsoft.com/software-download/windows11) (remember to check the file checksum),
+- [7-Zip](https://7-zip.org/),
+- [Windows 11 ADK](https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install) (just the Deployment tools),
 - and finally, fairly basic PowerShell knowledge.
 
 ## Warming Up
