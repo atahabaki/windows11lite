@@ -207,6 +207,25 @@ foreach ($a in $apps) {
 }
 ```
 
+## Commit or Save
+
+To save the changes we made, run the following command:
+
+```powershell
+Dismount-WindowsImage -Save -Path .\M
+```
+
+> [!bug]+ Applying changes via Commit way
+> When making changes to a Windows image using DISM, there are two ways to apply those changes: committing or saving. While committing the changes may seem like a quick and easy way to apply your modifications, it is not as stable as saving. Committing the changes can sometimes result in unexpected errors or issues that may not be immediately apparent, whereas saving the changes ensures that the image is in a stable and reliable state. Therefore, it is recommended to always save your changes when modifying a Windows image to ensure the stability and reliability of the resulting image.
+
+## Create the iso
+
+Press Ctrl+Esc keys at the same time or just press the Meta/Windows key on your keyboard to access Windows Start Menu, then start typing **Deployment and Imaging Tools Environment**, and launch it. Type the following to create a bootable media
+
+```cmd
+oscdimg -m -o -u2 -udfver102 -lWin11_Lite_v0.1 -bootdata:2#p0,e,bC:\W\I\boot\etfsboot.com#pEF,e,bC:\W\I\efi\microsoft\boot\efisys.bin C:\W\I C:\W\Windows11Lite.iso
+```
+
 ## Disclaimer
 
 This is just pure educational purposes only. I do not (re)distribute anything Windows related.
