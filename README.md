@@ -220,6 +220,76 @@ foreach ($a in $apps) {
 }
 ```
 
+### Removing Microsoft Edge
+
+```powershell
+rd "C:\scratchdir\Program Files (x86)\Microsoft"
+```
+
+### Removing OneDrive
+
+```powershell
+takeown /f C:\W\M\Windows\System32\OneDriveSetup.exe
+icacls C:\W\M\Windows\System32\OneDriveSetup.exe /grant Administrators:F /T /C
+cmd /c del /f /q /s "C:\W\M\Windows\System32\OneDriveSetup.exe"
+takeown /f C:\W\M\Windows\System32\OneDrive.ico
+icacls C:\W\M\Windows\System32\OneDrive.ico /grant Administrators:F /T /C
+cmd /c del /f /q /s "C:\W\M\Windows\System32\OneDrive.ico"
+Get-ChildItem -Filter *onedrive-setup* -Path ".\M\Windows\WinSxs\" | foreach { takeown /f $_.FullName; icacls $_.FullName /grant Administrators:F /T /C; del -Force -Recurse -Path $_.FullName }
+```
+
+## Registry Tweaks
+
+### Load hives
+
+```powershell
+reg load HKLM\zCOMPONENTS ".\M\Windows\System32\config\COMPONENTS"
+reg load HKLM\zDEFAULT ".\M\Windows\System32\config\default"
+reg load HKLM\zNTUSER ".\M\Users\Default\ntuser.dat"
+reg load HKLM\zSOFTWARE ".\M\Windows\System32\config\SOFTWARE"
+reg load HKLM\zSYSTEM ".\M\Windows\System32\config\SYSTEM"
+```
+
+### Disable Teams from Auto Installing
+
+```powershell
+reg add "HKLM\zSOFTWARE\Microsoft\Windows\CurrentVersion\Communications" /v "ConfigureChatAutoInstall" /t REG_DWORD /d "0" /f
+```
+
+### Disabling Sponsored Apps
+
+```powershell
+reg add "HKLM\zNTUSER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "PreInstalledAppsEnabled" /t REG_DWORD /d "0" /f
+reg add "HKLM\zNTUSER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SilentInstalledAppsEnabled" /t REG_DWORD /d "0" /f
+reg add "HKLM\zNTUSER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "DisableWindowsConsumerFeature" /t REG_DWORD /d "1" /f
+reg add "HKLM\zSOFTWARE\Microsoft\PolicyManager\current\device\Start" /v "ConfigureStartPins" /t REG_SZ /d '{"pinnedList": [{}]}' /f
+```
+
+### Enable local accounts on OOBE
+
+```powershell
+reg add "HKLM\zSOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v "BypassNRO" /t REG_DWORD /d "1" /f
+```
+
+### Disable Chat icon
+
+```powershell
+reg add "HKLM\zSOFTWARE\Policies\Microsoft\Windows\Windows Chat" /v "ChatIcon" /t REG_DWORD /d "3" /f
+reg add "HKLM\zNTUSER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarMn" /t REG_DWORD /d "0" /f
+```
+
+### Save registry tweaks
+
+```powershell
+reg unload HKLM\zCOMPONENTS
+reg unload HKLM\zDRIVERS
+reg unload HKLM\zDEFAULT
+reg unload HKLM\zNTUSER
+reg unload HKLM\zSCHEMA
+reg unload HKLM\zSOFTWARE
+reg unload HKLM\zSYSTEM
+```
+
 ## Commit or Save
 
 To save the changes we made, run the following command:
