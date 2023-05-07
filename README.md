@@ -278,6 +278,111 @@ reg add "HKLM\zSOFTWARE\Policies\Microsoft\Windows\Windows Chat" /v "ChatIcon" /
 reg add "HKLM\zNTUSER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarMn" /t REG_DWORD /d "0" /f
 ```
 
+### Disable Unnecessary Services
+
+```powershell
+# ActiveX Installer (AxInstSV)
+reg add "HKLM\zSYSTEM\ControlSet001\Services\AxInstSV" /v "Start" /t REG_DWORD /d "4" /f
+# dmwappushsvc
+reg add "HKLM\zSYSTEM\ControlSet001\Services\dmwappushservice" /v "Start" /t REG_DWORD /d "4" /f
+# Downloaded Maps Manager
+reg add "HKLM\zSYSTEM\ControlSet001\Services\MapsBroker" /v "Start" /t REG_DWORD /d "4" /f
+# Geolocation Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\lfsvc" /v "Start" /t REG_DWORD /d "4" /f
+# Internet Connection Sharing (ICS)
+reg add "HKLM\zSYSTEM\ControlSet001\Services\SharedAccess" /v "Start" /t REG_DWORD /d "4" /f
+# Link-Layer Topology Discovery Mapper
+reg add "HKLM\zSYSTEM\ControlSet001\Services\lltdsvc" /v "Start" /t REG_DWORD /d "4" /f
+# Phone
+reg add "HKLM\zSYSTEM\ControlSet001\Services\PhoneSvc" /v "Start" /t REG_DWORD /d "4" /f
+# Network Connection Broker, disabling prevents uwp apps to access network
+#reg add "HKLM\zSYSTEM\ControlSet001\Services\NcbService" /v "Start" /t REG_DWORD /d "4" /f
+# Microsoft Passport
+#reg add "HKLM\zSYSTEM\ControlSet001\Services\NgcSvc" /v "Start" /t REG_DWORD /d "4" /f
+# Microsoft Passport Container
+#reg add "HKLM\zSYSTEM\ControlSet001\Services\wlidsvc" /v "Start" /t REG_DWORD /d "4" /f
+# Print Spooler
+reg add "HKLM\zSYSTEM\ControlSet001\Services\Spooler" /v "Start" /t REG_DWORD /d "4" /f
+# Printer Extensions and Notifications
+reg add "HKLM\zSYSTEM\ControlSet001\Services\PrintNotify" /v "Start" /t REG_DWORD /d "4" /f
+# Program Compatibility Assistant Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\PcaSvc" /v "Start" /t REG_DWORD /d "4" /f
+# Radio Management Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\RmSvc" /v "Start" /t REG_DWORD /d "4" /f
+# Sensor Data Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\SensorDataService" /v "Start" /t REG_DWORD /d "4" /f
+# Sensor Monitoring Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\SensrSvc" /v "Start" /t REG_DWORD /d "4" /f
+# Shell Hardware Detection, disabling disables autoplay, which is fine for me.
+reg add "HKLM\zSYSTEM\ControlSet001\Services\ShellHWDetection" /v "Start" /t REG_DWORD /d "4" /f
+# Smart Card Device Enumeration Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\ScDeviceEnum" /v "Start" /t REG_DWORD /d "4" /f
+# SSDP Discovery
+reg add "HKLM\zSYSTEM\ControlSet001\Services\SSDPSRV" /v "Start" /t REG_DWORD /d "4" /f
+# Still Image Acquisition Events
+reg add "HKLM\zSYSTEM\ControlSet001\Services\WiaRpc" /v "Start" /t REG_DWORD /d "4" /f
+# Touch Keyboard and Handwriting Panel Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\TabletInputService" /v "Start" /t REG_DWORD /d "4" /f
+# UPnP Device Host
+reg add "HKLM\zSYSTEM\ControlSet001\Services\upnphost" /v "Start" /t REG_DWORD /d "4" /f
+# WalletService
+reg add "HKLM\zSYSTEM\ControlSet001\Services\WalletService" /v "Start" /t REG_DWORD /d "4" /f
+# Windows Camera Frame Server
+reg add "HKLM\zSYSTEM\ControlSet001\Services\FrameServer" /v "Start" /t REG_DWORD /d "4" /f
+reg add "HKLM\zSYSTEM\ControlSet001\Services\FrameServerMonitor" /v "Start" /t REG_DWORD /d "4" /f
+# Touch Keyboard and Handwriting Panel Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\TabletInputService" /v "Start" /t REG_DWORD /d "4" /f
+# Windows Image Acquisition (WIA)
+reg add "HKLM\zSYSTEM\ControlSet001\Services\stisvc" /v "Start" /t REG_DWORD /d "4" /f
+# Windows Insider Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\wisvc" /v "Start" /t REG_DWORD /d "4" /f
+# Windows Push Notifications System Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\WpnService" /v "Start" /t REG_DWORD /d "4" /f
+# Xbox
+reg add "HKLM\zSYSTEM\ControlSet001\Services\XblAuthManager" /v "Start" /t REG_DWORD /d "4" /f
+reg add "HKLM\zSYSTEM\ControlSet001\Services\XblGameSave" /v "Start" /t REG_DWORD /d "4" /f
+reg add "HKLM\zSYSTEM\ControlSet001\Services\XboxNetApiSvc" /v "Start" /t REG_DWORD /d "4" /f
+# Windows Update
+reg add "HKLM\zSYSTEM\ControlSet001\Services\wuauserv" /v "Start" /t REG_DWORD /d "4" /f
+# Windows Search
+reg add "HKLM\zSYSTEM\ControlSet001\Services\WSearch" /v "Start" /t REG_DWORD /d "4" /f
+# Windows Security
+reg add "HKLM\zSYSTEM\ControlSet001\Services\SecurityHealthService" /v "Start" /t REG_DWORD /d "4" /f
+reg add "HKLM\zSYSTEM\ControlSet001\Services\wscsvc" /v "Start" /t REG_DWORD /d "4" /f
+reg add "HKLM\zSYSTEM\ControlSet001\Services\webthreatdefsvc" /v "Start" /t REG_DWORD /d "4" /f
+# Delivery Optimization
+reg add "HKLM\zSYSTEM\ControlSet001\Services\DoSvc" /v "Start" /t REG_DWORD /d "4" /f
+# Background Intelligent Transfer Service, if u want to use store, just comment this line too..
+reg add "HKLM\zSYSTEM\ControlSet001\Services\BITS" /v "Start" /t REG_DWORD /d "4" /f
+# AllJoyn
+reg add "HKLM\zSYSTEM\ControlSet001\Services\AJRouter" /v "Start" /t REG_DWORD /d "4" /f
+# Distributed Link Tracking Client
+reg add "HKLM\zSYSTEM\ControlSet001\Services\TrkWks" /v "Start" /t REG_DWORD /d "4" /f
+# Bitlocker
+reg add "HKLM\zSYSTEM\ControlSet001\Services\BDESVC" /v "Start" /t REG_DWORD /d "4" /f
+# Dialog Blocking Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\DialogBlockingService" /v "Start" /t REG_DWORD /d "4" /f
+# MS AppV Client
+reg add "HKLM\zSYSTEM\ControlSet001\Services\AppVClient" /v "Start" /t REG_DWORD /d "4" /f
+# MS Keyboard Filter
+reg add "HKLM\zSYSTEM\ControlSet001\Services\MsKeyboardFilter" /v "Start" /t REG_DWORD /d "4" /f
+# Offline Files
+reg add "HKLM\zSYSTEM\ControlSet001\Services\CscService" /v "Start" /t REG_DWORD /d "4" /f
+# User Experience Virtualization Service
+reg add "HKLM\zSYSTEM\ControlSet001\Services\UevAgentService" /v "Start" /t REG_DWORD /d "4" /f
+# Windows Connect Now
+reg add "HKLM\zSYSTEM\ControlSet001\Services\wcncsvc" /v "Start" /t REG_DWORD /d "4" /f
+# SysMain, frequently used apps, optimizing etc. just pure bullshit.
+reg add "HKLM\zSYSTEM\ControlSet001\Services\SysMain" /v "Start" /t REG_DWORD /d "4" /f
+# Mixed Reality, if you don't have a headset disable it.
+reg add "HKLM\zSYSTEM\ControlSet001\Services\MixedRealityOpenXRSvc" /v "Start" /t REG_DWORD /d "4" /f
+# Related with Store.
+reg add "HKLM\zSYSTEM\ControlSet001\Services\PushToInstall" /v "Start" /t REG_DWORD /d "4" /f
+# Remote Registry and Access
+reg add "HKLM\zSYSTEM\ControlSet001\Services\RemoteRegistry" /v "Start" /t REG_DWORD /d "4" /f
+reg add "HKLM\zSYSTEM\ControlSet001\Services\RemoteAccess" /v "Start" /t REG_DWORD /d "4" /f
+```
+
 ### Save registry tweaks
 
 ```powershell
