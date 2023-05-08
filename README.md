@@ -438,6 +438,28 @@ reg unload HKLM\zSOFTWARE
 reg unload HKLM\zSYSTEM
 ```
 
+## Pre-Install Drivers
+
+To pre-install drivers using Windows PowerShell, you can follow these steps:
+
+### Step 1: Export Host Drivers
+
+The first step is to export all drivers currently installed on your host computer. To do this, enter the following command in Windows PowerShell:
+
+```powershell
+Export-WindowsDriver -Online -Destination .\D
+```
+
+This command exports all currently active drivers on your computer and saves them to the **D** folder.
+
+### Step 2: Installing Drivers
+
+Now that you have exported all active drivers on your computer and copied the drivers you want to pre-install to a driver package folder, you can install them using the following command:
+
+```powershell
+Add-WindowsDriver -Recurse -Path .\M -Driver .\D
+```
+
 ## Commit or Save
 
 To save the changes we made, run the following command:
