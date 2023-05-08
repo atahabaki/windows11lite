@@ -148,10 +148,41 @@ Get-WindowsPackage -Path .\M | Where-Object { $_.PackageName -clike "OpenSSH-Cli
 If you are using Text to speech, OCR, or Speech features, you may want to skip this part.
 
 ```powershell
-Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" -and $_.Name -clike "Language.Handwriting*" } | foreach { Remove-WindowsCapability -Path .\M -Name $_.Name }
-Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" -and $_.Name -clike "Language.OCR*" } | foreach { Remove-WindowsCapability -Path .\M -Name $_.Name }
-Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" -and $_.Name -clike "Language.Speech*" } | foreach { Remove-WindowsCapability -Path .\M -Name $_.Name }
-Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" -and $_.Name -clike "Language.TextToSpeech*" } | foreach { Remove-WindowsCapability -Path .\M -Name $_.Name }
+$allcaps = Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" }
+$rem_caps = @(
+# Language features...
+"Language.Handwriting*", 
+"Language.OCR*", 
+"Language.Speech*", 
+"Language.TextToSpeech*",
+# StepsRecorder
+"App.StepsRecorder*", 
+# IE
+"Browser.InternetExplorer*",
+# Windows Hello (just the Face part)
+"Hello.Face*",
+# MathRecognizer
+"MathRecognizer*",
+# Wallpapers
+"Microsoft.Wallpapers.Extended*",
+# Notepad
+"Microsoft.Windows.Notepad*",
+# for Powershell IDE
+"Microsoft.Windows.PowerShell.ISE*",
+# WordPad
+"Microsoft.Windows.WordPad*",
+# for syncing with Mail, Calendar, People, Contacts
+"OneCoreUAP.OneSync*",
+# for SSH agent
+"OpenSSH.Client*")
+foreach ($r in $rem_caps) {
+	foreach ($c in $allcaps) {
+		if ($c.Name -like $r) {
+			echo "Removing $($c.Name)..."
+			Remove-WindowsCapability -Name $c.Name -Path .\M
+		}
+	}
+}
 ```
 
 
@@ -160,18 +191,26 @@ Get-WindowsCapability -Path .\M | Where-Object { $_.State -ne "NotPresent" -and 
 To keep Printer features or any other you may want, just take them out from the list before you run the script below.
 
 ```powershell
-$features = "Printing-PrintToPDFServices-Features",
+$features = @(
+# Printing
+"Printing-PrintToPDFServices-Features",
+"Printing-Foundation-Features",
+"Printing-Foundation-InternetPrinting-Client",
+# Remote Desktop
+"MSRDC-Infrastructure",
+# Powershell
 "MicrosoftWindowsPowerShellV2Root",
 "MicrosoftWindowsPowerShellV2",
+# .NET 3.5, 4, and etc.
 "NetFx4-AdvSrvs",
 "WCF-Services45",
 "WCF-TCP-PortSharing45",
+# Windows Media Player, etc.
 "MediaPlayback",
 "SearchEngine-Client-Package",
+# File sharing, searching, syncing etc.
 "WorkFolders-Client",
-"Printing-Foundation-Features",
-"Printing-Foundation-InternetPrinting-Client",
-"SmbDirect"
+"SmbDirect")
 
 foreach ($f in $features) {
 	Disable-WindowsOptionalFeature -Path .\M -FeatureName $f
@@ -183,8 +222,8 @@ foreach ($f in $features) {
 If you wish to keep an app from the list below, simply delete it from the list before running the script.
 
 ```powershell
-$apps = "Clipchamp.Clipchamp*",
-"Microsoft.549981C3F5F10*",
+$apps = @("Clipchamp.Clipchamp*",
+"Microsoft.549981C3F5F10*", # Cortana
 "Microsoft.Bing*",
 "Microsoft.GamingApp*",
 "Microsoft.GetHelp*",
@@ -194,29 +233,33 @@ $apps = "Clipchamp.Clipchamp*",
 "Microsoft.MicrosoftStickyNotes*",
 "Microsoft.Paint*",
 "Microsoft.People*",
+"MicrosoftCorporationII.MicrosoftFamily*"
 "Microsoft.PowerAutomateDesktop*",
 "Microsoft.ScreenSketch*",
 "Microsoft.Todos*",
-"Microsoft.StorePurchaseApp*", # Store Purchase App
+#"Microsoft.StorePurchaseApp*", # Store Purchase App
 "Microsoft.Windows.Photos*",
 "Microsoft.WindowsAlarms*",
-"Microsoft.WindowsCalculator*",
+#"Microsoft.WindowsCalculator*",
 "Microsoft.WindowsCamera*",
+# Outlook, Calendar, etc.
 "microsoft.windowscommunicationsapps*",
 "Microsoft.WindowsFeedbackHub*",
 "Microsoft.WindowsMaps*",
 "Microsoft.WindowsNotepad*",
 "Microsoft.WindowsSoundRecorder*",
-"Microsoft.WindowsStore*",
+#"Microsoft.WindowsStore*",
 "Microsoft.WindowsTerminal*",
 "Microsoft.Xbox*",
 "Microsoft.YourPhone*",
+# Music and Video Player
 "Microsoft.Zune*",
 "MicrosoftCorporationII.QuickAssist*",
-"MicrosoftWindows.Client.WebExperience*"
+# Widgets
+"MicrosoftWindows.Client.WebExperience*")
 
 foreach ($a in $apps) {
-	Get-AppxProvisionedPackage -Path .\M | Where-Object { $_.PackageName -clike $a } | foreach { Remove-AppxProvisionedPackage -Path .\M -PackageName $_.PackageName }
+	Get-AppxProvisionedPackage -Path .\M | Where-Object { $_.PackageName -like $a } | foreach { Remove-AppxProvisionedPackage -Path .\M -PackageName $_.PackageName }
 }
 ```
 
